@@ -10,5 +10,9 @@ namespace JwtAuthAspNet.Core.Dtos
         public string Email { get; set; }
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
+        [Required(ErrorMessage = "FisrtName is required")]
+        public string FisrtName { get; set; }
+        [Required(ErrorMessage = "LastName is required")]
+        public string LastName { get; set; }
     }
 }
