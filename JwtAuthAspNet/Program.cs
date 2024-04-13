@@ -1,5 +1,7 @@
 using JwtAuthAspNet.Core.DbContext;
 using JwtAuthAspNet.Core.Entities;
+using JwtAuthAspNet.Core.Interfaces;
+using JwtAuthAspNet.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +64,9 @@ builder.Services
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
         };
     });
+
+//Inject my dependencies(Dependency Injection)}
+builder.Services.AddScoped<IAuthService, AuthService>();    
 
 //pipiepline
 var app = builder.Build();
