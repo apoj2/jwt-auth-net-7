@@ -116,8 +116,8 @@ namespace JwtAuthAspNet.Controllers
             var authSecret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
             var tokenObject = new JwtSecurityToken(
-                    issuer: _configuration["JWR:ValidIssuer"],
-                    audience : _configuration["JWR:ValidAudience"],
+                    issuer: _configuration["JWT:ValidIssuer"],
+                    audience : _configuration["JWT:ValidAudience"],
                     expires: DateTime.Now.AddHours(1),
                     claims:authClaims,
                     signingCredentials: new SigningCredentials(authSecret,SecurityAlgorithms.HmacSha256)
@@ -127,5 +127,34 @@ namespace JwtAuthAspNet.Controllers
             return token;
         }
 
+
+        //rOUTE __>MAKE USER >> ADMIN
+        [HttpPost]
+        [Route("make-admin")]
+
+        public async Task<IActionResult> MakeAdmin([FromBody] UpdatePermissionDto updatePermissionDto)
+        {
+            var user = await _userManager.FindByNameAsync(updatePermissionDto.UserName);
+
+            if (user is null) return BadRequest("Invalid username");
+
+            await _userManager.AddToRoleAsync(user, StaticUserRoles.ADMIN);
+
+            return Ok("User us now an ADMIN");
+        }
+        //Route ->make user -> owner
+        [HttpPost]
+        [Route("make-owner")]
+
+        public async Task<IActionResult> MakeOwner([FromBody] UpdatePermissionDto updatePermissionDto)
+        {
+            var user = await _userManager.FindByNameAsync(updatePermissionDto.UserName);
+
+            if (user is null) return BadRequest("Invalid username");
+
+            await _userManager.AddToRoleAsync(user, StaticUserRoles.OWNER);
+
+            return Ok("User us now an OWNER");
+        }
     }
 }
