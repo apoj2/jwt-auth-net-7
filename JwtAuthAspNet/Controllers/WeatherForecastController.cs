@@ -1,3 +1,5 @@
+using JwtAuthAspNet.Core.OtherObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwtAuthAspNet.Controllers
@@ -12,10 +14,34 @@ namespace JwtAuthAspNet.Controllers
         };
 
 
-
         [HttpGet]
         [Route("Get")]
         public IActionResult Get()
+        {
+            return Ok(Summaries);
+        }
+
+
+        [HttpGet]
+        [Route("GetUsersRoles")]
+        [Authorize(Roles = StaticUserRoles.USER)]
+        public IActionResult GetUser()
+        {
+            return Ok(Summaries);
+        }
+
+        [HttpGet]
+        [Route("GetAdminsRoles")]
+        [Authorize(Roles = StaticUserRoles.ADMIN)]
+        public IActionResult GetAdmin()
+        {
+            return Ok(Summaries);
+        }
+
+        [HttpGet]
+        [Route("GetOwnersRoles")]
+        [Authorize(Roles = StaticUserRoles.OWNER)]
+        public IActionResult GetOwner()
         {
             return Ok(Summaries);
         }
